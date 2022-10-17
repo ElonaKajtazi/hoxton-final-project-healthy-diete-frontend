@@ -1,0 +1,161 @@
+.signed-out-page {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  height: 100vh;
+}
+.picture {
+  background-image: url(https://abs.twimg.com/sticky/illustrations/lohp_en_1302x955.png);
+  background-size: cover;
+}
+
+.twitter-svg {
+  color: rgb(255, 255, 255);
+  /* height: fit-content; */
+  -webkit-box-pack: center;
+  justify-content: center;
+
+  /* position: absolute; */
+  vertical-align: text-bottom;
+  padding: 32px;
+  overflow: hidden;
+  max-width: 48%;
+  fill: currentcolor;
+  margin-top: 110px;
+  margin-left: 240px;
+}
+
+.join-twitter {
+  display: grid;
+  grid-auto-flow: row;
+  padding: 0.5rem 2rem;
+  background-color: black;
+  color: white;
+  place-content: start;
+  gap: 3rem;
+}
+.titles {
+  display: grid;
+  grid-auto-flow: row;
+  gap: 2rem;
+}
+.titles h1 {
+  font-size: 60px;
+  font-weight: 700;
+  word-wrap: break-word;
+  /* margin-bottom: 40px;
+    margin-top: 40px; */
+  text-align: start;
+  display: inline;
+}
+.titles h2 {
+  line-height: 28px;
+  font-size: 35px;
+  /* margin-bottom: 20px; */
+  font-weight: 700;
+  word-wrap: break-word;
+  text-align: start;
+  margin-top: 2rem;
+}
+.twitter-icon {
+  height: 4rem;
+}
+.buttons {
+  display: grid;
+  grid-auto-flow: row;
+  gap: 0.8rem;
+  place-self: start;
+  padding: 0.5rem;
+  width: 200px;
+}
+
+.sign-up-btn {
+  all: unset;
+  background-color: white;
+  font-size: 15px;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  padding: 0.2rem 3rem;
+  width: 200px;
+  height: 35px;
+  align-items: center;
+  place-content: center;
+  gap: 0.7rem;
+  border-radius: 50px;
+  cursor: pointer;
+}
+.sign-up-btn.google {
+  color: #3c4043;
+}
+
+.sign-up-btn.google:hover {
+  background-color: #f8faff;
+}
+.sign-up-btn.google:active {
+  background-color: #ecf3fe;
+}
+.sign-up-btn.apple {
+  color: black;
+  font-weight: 550;
+}
+.sign-up-btn.apple:hover {
+  background-color: #e6e6e6;
+}
+.sign-up-btn.apple:active {
+  background-color: #cccccc;
+}
+.icon {
+  width: 20px;
+}
+.or-stuff {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+}
+div:empty {
+  border-top: 1px solid #2f3336;
+  margin-top: 0.7rem;
+}
+.email {
+  background-color: #1d9bf0;
+  font-weight: 550;
+}
+
+.buttons p {
+  font-size: 11px;
+  color: #656b70;
+}
+a {
+  all: unset;
+  color: #1d9bf0;
+  cursor: pointer;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.buttons h3 {
+  font-size: 15px;
+  font-weight: 500;
+  margin-top: 2rem;
+}
+.sign-in-btn {
+  all: unset;
+  background-color: black;
+  color: #1d9bf0;
+  font-size: 15px;
+  padding: 0.2rem 3rem;
+  width: 200px;
+  height: 35px;
+  text-align: center;
+  border-radius: 50px;
+  border: 0.5px solid #495864;
+  cursor: pointer;
+}
+.sign-in-btn:active {
+  background-color: #031018;
+}
+
+/* .buttons.modal-buttons {
+    background-color: red;
+  } */

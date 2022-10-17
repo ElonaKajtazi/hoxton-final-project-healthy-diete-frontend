@@ -2,13 +2,25 @@ import { useState } from "react";
 import { LogIn } from "../components/LogIn";
 import { SignUp } from "../components/SignUp";
 import { DataType } from "../types";
-// import "../styles/signed-out-page.css";
+import "../styles/signed-out-page.css";
+import { SignUpWithGoogleBtn } from "../components/SignUpWithGoogleBtn";
+import { SignUpWithAppleBtn } from "../components/SignUpWithAppleBtn";
+import { OrSection } from "../components/OrSection";
 
 type Props = {
   signIn: (data: DataType) => void;
 };
 export function SignedOutLandingPage({ signIn }: Props) {
   const [page, setPage] = useState(0);
+  const [signInModal, setSignInModal] = useState(true);
+  const [signUpModal, setSignUpModal] = useState(false);
+  const [googleBtnText, setGoogleBtnText] = useState<String>(
+    "Sign up with google"
+  );
+  const [appleBtnText, setAppleBtnText] = useState<String>(
+    "Sign up with Apple"
+  );
+
   return (
     <div className="signed-out-page">
       <aside className="picture">
@@ -28,30 +40,10 @@ export function SignedOutLandingPage({ signIn }: Props) {
         </div>
 
         <div className="buttons">
-          <button className="sign-up-btn google">
-            {" "}
-            <img
-              className="icon"
-              src="https://cdn-icons-png.flaticon.com/512/300/300221.png"
-              alt="google-icon"
-            />{" "}
-            Sign up with Google
-          </button>
-          <button className="sign-up-btn apple">
-            {" "}
-            <img
-              className="icon"
-              src="https://cdn-icons-png.flaticon.com/512/0/747.png"
-              alt=""
-            />{" "}
-            Sign up with Apple
-          </button>
+          <SignUpWithGoogleBtn googleBtnText={googleBtnText} />
+          <SignUpWithAppleBtn appleBtnText={appleBtnText}/>
           {/* <hr /> */}
-          <div className="or-stuff">
-            <div className="left-line"></div>
-            <div className="or"> or </div>
-            <div className="right-line"></div>
-          </div>
+          <OrSection />
 
           <button className="sign-up-btn email">Sign up with email</button>
           <p>
@@ -63,8 +55,8 @@ export function SignedOutLandingPage({ signIn }: Props) {
           <h3>Already have an account?</h3>
           <button className="sign-in-btn">Sign in</button>
         </div>
-        {/* {page === 0 ? <LogIn signIn={signIn} setPage={setPage} /> : null}
-        {page === 1 ? <SignUp signIn={signIn} /> : null} */}
+        {signInModal ? <LogIn signIn={signIn} setPage={setPage} /> : null}
+        {signUpModal ? <SignUp signIn={signIn} /> : null}
       </aside>
     </div>
   );

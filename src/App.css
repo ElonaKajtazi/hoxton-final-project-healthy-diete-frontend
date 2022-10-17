@@ -1,42 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
+  /* height: 100vh; */
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.signed-out-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
 }
+.picture {
+  background-image: url(https://abs.twimg.com/sticky/illustrations/lohp_en_1302x955.png);
+  /* background-repeat: no-repeat; */
+  background-size: cover;
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
 }
+/* .twitter-svg {
+  height: fit-content;
+  color: white;
+} */
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.twitter-svg {
+  color: rgb(255, 255, 255);
+  height: fit-content;
+  -webkit-box-pack: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+
+  position: relative;
+  vertical-align: text-bottom;
+  padding: 32px;
+  overflow: hidden;
+  max-width: 50%;
+  fill: currentcolor;
+  margin-top: 100px;
+
+}
+
+.join-twitter {
+  background-color: black;
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-button {
-  font-size: calc(10px + 2vmin);
+.twitter-icon {
+  height: 3rem;
+  /* color: white; */
+  /* border-radius: 50%; */
+  /* background-color: pink; */
 }

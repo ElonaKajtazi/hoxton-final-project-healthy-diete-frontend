@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LogIn } from "../components/LogIn";
+import { SignIn } from "../components/SignIn";
 import { SignUp } from "../components/SignUp";
 import { DataType } from "../types";
 import "../styles/signed-out-page.css";
@@ -12,14 +12,13 @@ type Props = {
 };
 export function SignedOutLandingPage({ signIn }: Props) {
   const [page, setPage] = useState(0);
-  const [signInModal, setSignInModal] = useState(true);
+  const [signInModal, setSignInModal] = useState(false);
   const [signUpModal, setSignUpModal] = useState(false);
   const [googleBtnText, setGoogleBtnText] = useState<String>(
     "Sign up with google"
   );
-  const [appleBtnText, setAppleBtnText] = useState<String>(
-    "Sign up with Apple"
-  );
+  const [appleBtnText, setAppleBtnText] =
+    useState<String>("Sign up with Apple");
 
   return (
     <div className="signed-out-page">
@@ -41,11 +40,17 @@ export function SignedOutLandingPage({ signIn }: Props) {
 
         <div className="buttons">
           <SignUpWithGoogleBtn googleBtnText={googleBtnText} />
-          <SignUpWithAppleBtn appleBtnText={appleBtnText}/>
+          <SignUpWithAppleBtn appleBtnText={appleBtnText} />
           {/* <hr /> */}
           <OrSection />
-
-          <button className="sign-up-btn email">Sign up with email</button>
+          <button
+            className="sign-up-btn email"
+            onClick={() => {
+              setSignUpModal(true);
+            }}
+          >
+            Sign up with email
+          </button>
           <p>
             By signing up, you agree to the <a href="#">Terms of Service</a> and{" "}
             <a href=""> Privacy Policy</a> Privacy Policy, including{" "}
@@ -53,10 +58,26 @@ export function SignedOutLandingPage({ signIn }: Props) {
           </p>
 
           <h3>Already have an account?</h3>
-          <button className="sign-in-btn">Sign in</button>
+          <button
+            className="sign-in-btn"
+            onClick={() => {
+              setSignInModal(true);
+            }}
+          >
+            Sign in
+          </button>
         </div>
-        {signInModal ? <LogIn signIn={signIn} setPage={setPage} /> : null}
-        {signUpModal ? <SignUp signIn={signIn} /> : null}
+        {signInModal ? (
+          <SignIn
+            signIn={signIn}
+            setPage={setPage}
+            setSignInModal={setSignInModal}
+            setSignUpModal={setSignUpModal}
+          />
+        ) : null}
+        {signUpModal ? (
+          <SignUp signIn={signIn} setSignUpModal={setSignUpModal} />
+        ) : null}
       </aside>
     </div>
   );

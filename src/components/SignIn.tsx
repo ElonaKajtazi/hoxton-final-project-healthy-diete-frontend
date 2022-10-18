@@ -8,9 +8,16 @@ import { useState } from "react";
 type Props = {
   signIn: (data: DataType) => void;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  setSignInModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setSignUpModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function LogIn({ signIn, setPage }: Props) {
+export function SignIn({
+  signIn,
+  setPage,
+  setSignInModal,
+  setSignUpModal,
+}: Props) {
   const [appleText, setAppleTxt] = useState<String>("Sign in with Apple");
   const [googleText, setGoogleTxt] = useState<String>("Sign in with Google");
   // const [input, setInput] = useState<boolean>(false);
@@ -18,7 +25,14 @@ export function LogIn({ signIn, setPage }: Props) {
   return (
     <div className="sign-in-modal__wrapper ">
       <div className="sign-in-modal__container">
-        <button className="sign-in-modal__close-button">X</button>
+        <button
+          className="sign-in-modal__close-button"
+          onClick={() => {
+            setSignInModal(false);
+          }}
+        >
+          X
+        </button>
         <img
           className="twitter-icon modal "
           src="https://i.pinimg.com/736x/99/ee/24/99ee24b95cf5aa5d814e271247d18860.jpg"
@@ -65,20 +79,28 @@ export function LogIn({ signIn, setPage }: Props) {
             placeholder="Email"
             required
           />
-              <input
+          <input
             className="text-input"
             type="password"
             name="password"
             placeholder="Password"
             required
           />
-          {/* <button className="next-btn">Next</button> */}
-          <button className="forgot-password-btn">Forgot password?</button>
+          <button className="next-btn">Log in</button>
+          {/* <button className="forgot-password-btn">Forgot password?</button> */}
           <p>
-            Don't have an account? <a href="#">Sign up</a>
+            Don't have an account?{" "}
+            <a
+              href="#"
+              onClick={() => {
+                setSignInModal(false);
+                setSignUpModal(true);
+              }}
+            >
+              Sign up
+            </a>
           </p>
 
-      
           {/* <button>Login</button> */}
           {/* {error ? <p className="error">{error}</p> : null} */}
 

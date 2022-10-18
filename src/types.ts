@@ -19,6 +19,7 @@ export type TweetType = {
   author: {
     id: number;
     email: string;
+    name: string
     password: string;
     twwetTicket: number;
     commentTicket: number;

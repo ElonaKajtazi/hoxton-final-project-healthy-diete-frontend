@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
-
-export function LeftMenu() {
+type Props = {
+  signOut: () => void;
+};
+export function LeftMenu({ signOut }: Props) {
   return (
     <section className="left-menu">
       <nav>
@@ -98,7 +100,19 @@ export function LeftMenu() {
               <h2 className="lm-item-title">More</h2>
             </a>
           </li>
-          <button className="tweet-btn">Tweet</button>
+          <li>
+            <button className="tweet-btn">Tweet</button>
+          </li>
+          <li>
+            <button
+              className="sign-out-btn"
+              onClick={() => {
+                signOut();
+              }}
+            >
+              Sign out
+            </button>
+          </li>
         </ul>
       </nav>
     </section>

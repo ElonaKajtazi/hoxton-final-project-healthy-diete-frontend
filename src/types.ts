@@ -1,6 +1,7 @@
 export type UserType = {
   id: number;
   email: string;
+  avatar: string;
   name: string;
   password: string;
   twwetTicket: number;
@@ -19,7 +20,8 @@ export type TweetType = {
   author: {
     id: number;
     email: string;
-    name: string
+    name: string;
+    avatar: string;
     password: string;
     twwetTicket: number;
     commentTicket: number;
@@ -43,7 +45,51 @@ export type NotificationType = {
   time: string;
   userId: number;
 };
-export type DataType ={
-    user: UserType,
-    token: string
-}
+export type DataType = {
+  user: UserType;
+  token: string;
+};
+export type HomeTweetType = {
+  id: number;
+  text: string;
+  image: string | null;
+  authorId: number;
+  time: string;
+  selectedTopicUserId: null | number;
+  selectedTopicTopicId: number;
+  author: {
+    id: number;
+    name: string;
+    avatar: string;
+    email: string;
+    password: string;
+    twwetTicket: number;
+    commentTicket: number;
+  };
+  // comments: {
+  //   id: number;
+  //   text: string;
+  //   image: null;
+  //   time: string;
+  //   authorId: number;
+  //   tweetId: number;
+  //   author: {
+  //     id: number;
+  //     name: string;
+  //     avatar: string;
+  //     email: string;
+  //     password: string;
+  //     twwetTicket: number;
+  //     commentTicket: number;
+  //   };
+  //   likes: Like[];
+  // };
+  likes: Like[];
+  selectedTopic: null | SelectedTopicType;
+};
+
+export type Like = {
+  userId: 2;
+  tweetId: 1;
+  commentId: null | number;
+};

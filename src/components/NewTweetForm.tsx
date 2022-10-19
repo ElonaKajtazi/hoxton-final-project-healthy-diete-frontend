@@ -1,14 +1,28 @@
-export function NewTweetForm() {
-    return (
-      <form className="new-tweet-form">
-        <img
-          className="user-profile-image"
-          src="https://images.pexels.com/photos/2406949/pexels-photo-2406949.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-          alt=""
+
+import { UserType } from "../types";
+
+type Props = {
+  currentUser: UserType | null;
+};
+
+export function NewTweetForm({ currentUser }: Props) {
+  if (!currentUser) return <h1>Loading...</h1>;
+  return (
+    <form className="new-tweet-form">
+      <img className="user-profile-image" src={currentUser.avatar} alt="" />
+      <div className="inputs">
+        <input
+          className="input-text"
+          type="text"
+          placeholder="What's happening?"
         />
-        <input type="text" placeholder="What's happening?" />
-        <button className="home__tweet-btn">Tweet</button>
-      </form>
-    );
-  }
-  
+        <input
+          className="input-image"
+          type="text"
+          placeholder="...image here"
+        />
+      </div>
+      <button className="home__tweet-btn">Tweet</button>
+    </form>
+  );
+}

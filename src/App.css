@@ -163,20 +163,76 @@
 }
 .single-tweet {
   display: grid;
-  grid-auto-flow: row;
-  place-content: center;
+  justify-content: start;
+
   gap: 0.5rem;
-  padding: 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.275);
+  padding: 0.5rem 5rem;
+  /* margin-left: 10px;
+  margin-right: 10px; */
+  border: 1px solid #2f3336;
   color: white;
 }
-.single-tweet img{
+/* .single-tweet img{
   width:70%;
-}
+} */
 a {
   text-decoration: none;
   color: black;
 }
 .tweets h3 p {
   color: white;
+}
+.user-avatar {
+  width: 40px;
+  border-radius: 50%;
+}
+.user-info {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  gap: 1rem;
+  place-items: center;
+}
+.tweet-text {
+  align-self: start;
+}
+.some-div {
+  display: grid;
+  gap: 0.5rem;
+}
+.tweet-image {
+  width: 50%;
+  margin-left: 3.5rem;
+}
+.icon {
+  color: #3d3f42;
+
+  fill: currentColor;
+  width: 25px;
+  margin-left: 3rem;
+}
+.reaction {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  gap: 0.8rem;
+  color: #3d3f42;
+  place-items: center;
+}
+.tweet-reactions {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+}
+.comment-icon:hover {
+  color: #1b8edc;
+}
+.comment:hover {
+  color: #1b8edc;
+}
+.like-icon:hover {
+  color: #e61776;
+}
+.like:hover {
+  color: #e61776;
 }

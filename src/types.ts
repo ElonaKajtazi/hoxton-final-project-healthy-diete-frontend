@@ -66,29 +66,19 @@ export type HomeTweetType = {
     twwetTicket: number;
     commentTicket: number;
   };
-  // comments: {
-  //   id: number;
-  //   text: string;
-  //   image: null;
-  //   time: string;
-  //   authorId: number;
-  //   tweetId: number;
-  //   author: {
-  //     id: number;
-  //     name: string;
-  //     avatar: string;
-  //     email: string;
-  //     password: string;
-  //     twwetTicket: number;
-  //     commentTicket: number;
-  //   };
-  //   likes: Like[];
-  // };
-  likes: Like[];
+  comments: {
+    id: number;
+    text: string;
+    image: null;
+    time: string;
+    authorId: number;
+    tweetId: number;
+  }[];
+  likes: LikeType[];
   selectedTopic: null | SelectedTopicType;
 };
 
-export type Like = {
+export type LikeType = {
   userId: 2;
   tweetId: 1;
   commentId: null | number;

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
+import { PageNotFound } from "./pages/NotFound";
+import { Profile } from "./pages/Profile";
 import { SignedOutLandingPage } from "./pages/SignedOutLandingPage";
 import { SignedInLandingPage } from "./pages/SingedInLandingPage";
 import { DataType, UserType } from "./types";
@@ -8,6 +10,8 @@ import { DataType, UserType } from "./types";
 function App() {
   const [currentUser, setCurrentUser] = useState<null | UserType>(null);
   const [error, setError] = useState<null | Array<string>>();
+  const [search, setSearch] = useState<UserType[] | null>(null);
+
   useEffect(() => {
     if (localStorage.token) {
       fetch("http://localhost:4443/validate", {
@@ -43,12 +47,24 @@ function App() {
           path="/home"
           element={
             currentUser ? (
-              <SignedInLandingPage currentUser={currentUser} signOut={signOut}/>
+              <SignedInLandingPage
+                currentUser={currentUser}
+                signOut={signOut}
+                search={search}
+                setSearch={setSearch}
+              />
             ) : (
               <SignedOutLandingPage signIn={signIn} />
             )
           }
         />
+        <Route
+          path="/profile"
+          element={
+            <Profile search={search} setSearch={setSearch} signOut={signOut} />
+          }
+        />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </div>
   );

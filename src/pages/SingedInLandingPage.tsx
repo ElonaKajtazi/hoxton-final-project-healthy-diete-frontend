@@ -8,12 +8,13 @@ import { HomeTweetType, UserType, LikeType } from "../types";
 type Props = {
   currentUser: null | UserType;
   signOut: () => void;
+  search: UserType[] | null;
+  setSearch: React.Dispatch<React.SetStateAction<UserType[] | null>>;
 };
 
-export function SignedInLandingPage({ currentUser, signOut }: Props) {
+export function SignedInLandingPage({ currentUser, signOut, search, setSearch }: Props) {
   const [tweets, setTweets] = useState<HomeTweetType[]>([]);
   const [like, setLike] = useState<LikeType | null>(null);
-  const [search, setSearch] = useState<UserType[] | null>(null);
 
   useEffect(() => {
     if (localStorage.token) {
@@ -46,7 +47,7 @@ export function SignedInLandingPage({ currentUser, signOut }: Props) {
           </section>
           {search ? (
             search.map((s) => (
-              <li className="name-search">
+              <li className="name-search" key={s.id}>
                 <div className="searched-users">
                   <img src={s.avatar} alt="avatar" className="user-avatar" />
                   <h6>{s.name}</h6>

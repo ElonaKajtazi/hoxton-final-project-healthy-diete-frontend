@@ -5,6 +5,7 @@ import { PageNotFound } from "./pages/NotFound";
 import { Profile } from "./pages/Profile";
 import { SignedOutLandingPage } from "./pages/SignedOutLandingPage";
 import { SignedInLandingPage } from "./pages/SingedInLandingPage";
+import { SingleTweetPage } from "./pages/SingleTweetPage";
 import { DataType, UserType } from "./types";
 
 function App() {
@@ -72,6 +73,17 @@ function App() {
             ) : (
               <Navigate to="/home" />
             )
+          }
+        />
+        <Route
+          path="/tweet/:id"
+          element={
+            <SingleTweetPage
+            currentUser={currentUser}
+              signOut={signOut}
+              search={search}
+              setSearch={setSearch}
+            />
           }
         />
         <Route path="*" element={<PageNotFound />} />

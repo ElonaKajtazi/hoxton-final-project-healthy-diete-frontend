@@ -28,8 +28,14 @@ export function NewTweetForm({ currentUser, setTweets, tweets }: Props) {
           }),
         })
           .then((rsp) => rsp.json())
-          .then((data) => setTweets([...tweets, data]));
-          refreshPage()
+          .then((data) => {
+            if (data.errors) {
+              alert(data.errors);
+            } else {
+              setTweets([...tweets, data]);
+            }
+            refreshPage();
+          });
       }}
     >
       <img className="user-profile-image" src={currentUser.avatar} alt="" />

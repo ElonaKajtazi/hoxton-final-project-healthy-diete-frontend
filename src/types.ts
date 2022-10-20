@@ -83,3 +83,20 @@ export type LikeType = {
   tweetId: 1;
   commentId: null | number;
 };
+export type CommentType = {
+  id: number;
+  text: string;
+  image: null | string;
+  time: string;
+  authorId: number;
+  tweetId: number;
+  author: {
+    id: number;
+    name: string;
+    avatar: string;
+    email: string;
+    password: string;
+    twwetTicket: number;
+    commentTicket: number;
+  };
+};

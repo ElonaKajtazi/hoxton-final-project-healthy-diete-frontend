@@ -4,7 +4,7 @@ import { ChangeProfilePictureForm } from "../components/ChangeProfilePictureForm
 import { LeftMenu } from "../components/LeftMenu";
 import { RightMenu } from "../components/RightMenu";
 import { Tweet } from "../components/Tweet";
-import { HomeTweetType, UserType } from "../types";
+import { HomeTweetType, SelectedTopicType, UserType } from "../types";
 type Props = {
   signOut: () => void;
   search: UserType[] | null;
@@ -22,9 +22,12 @@ export function Profile({
   const [followers, setFollowers] = useState<UserType[]>([]);
   const [following, setFollowing] = useState<UserType[]>([]);
   const [userTweets, setUserTweets] = useState<HomeTweetType[]>([]);
+  const [selectedTopics, setSelectedTopics] = useState<SelectedTopicType[]>([]);
   const [seeFollowers, setSeeFollowers] = useState<boolean>(false);
   const [seeFollowing, setSeeFollowing] = useState<boolean>(false);
   const [seeTweets, setSeeTweets] = useState<boolean>(true);
+  const [seeSelectedTopics, setSeeSelectedTopics] = useState<boolean>(false);
+
   const [changePic, setChangePic] = useState<boolean>(false);
   useEffect(() => {
     fetch(`http://localhost:4443/users/${currentUser?.id}/followers`)
@@ -52,6 +55,15 @@ export function Profile({
           alert(data.errors);
         } else {
           setUserTweets(data);
+        }
+      });
+    fetch(`http://localhost:4443/users-selected-topics/${currentUser?.id}`)
+      .then((rsp) => rsp.json())
+      .then((data) => {
+        if (data.errors) {
+          alert(data.errors);
+        } else {
+          setSelectedTopics(data);
         }
       });
   }, []);
@@ -93,6 +105,8 @@ export function Profile({
               onClick={() => {
                 setSeeTweets(false);
                 setSeeFollowers(false);
+                setSeeSelectedTopics(false);
+
                 setSeeFollowing(true);
               }}
             >
@@ -102,6 +116,8 @@ export function Profile({
               onClick={() => {
                 setSeeTweets(false);
                 setSeeFollowing(false);
+                setSeeSelectedTopics(false);
+
                 setSeeFollowers(true);
               }}
             >
@@ -117,11 +133,22 @@ export function Profile({
               onClick={() => {
                 setSeeFollowers(false);
                 setSeeFollowing(false);
+                setSeeSelectedTopics(false);
+
                 setSeeTweets(true);
               }}
             >
-              {" "}
               <span>Tweets</span>{" "}
+            </p>
+            <p
+              onClick={() => {
+                setSeeFollowers(false);
+                setSeeFollowing(false);
+                setSeeTweets(false);
+                setSeeSelectedTopics(true);
+              }}
+            >
+              {selectedTopics.length} <span>Topics</span>
             </p>
           </div>
         </div>
@@ -161,6 +188,15 @@ export function Profile({
                     className="user-avatar"
                   />
                   <h6>{following.name}</h6>
+                </div>
+              </li>
+            ))
+          : null}
+        {seeSelectedTopics
+          ? selectedTopics.map((topic) => (
+              <li className="name-search" key={topic.id}>
+                <div className="searched-users">
+                  <h6>{topic.topic.name}</h6>
                 </div>
               </li>
             ))

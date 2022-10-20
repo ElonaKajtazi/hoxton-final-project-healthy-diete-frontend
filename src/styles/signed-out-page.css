@@ -66,6 +66,7 @@
   place-self: start;
   padding: 0.5rem;
   width: 200px;
+
 }
 
 .sign-up-btn {
@@ -74,7 +75,7 @@
   font-size: 15px;
   display: grid;
   grid-auto-flow: column;
-  justify-content: center;
+  justify-content: start;
   padding: 0.2rem 3rem;
   width: 200px;
   height: 35px;

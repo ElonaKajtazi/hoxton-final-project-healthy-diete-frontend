@@ -26,6 +26,7 @@
   grid-area: right-menu;
   background-color: black;
   width: 400px;
+  border-left: 1px solid #2f3336;
 }
 /* .header {
   grid-area: header;
@@ -232,14 +233,17 @@ a {
 .comment-icon:hover {
   color: #1b8edc;
 }
-.comment:hover {
+.reaction.comment:hover {
   color: #1b8edc;
 }
 .like-icon:hover {
   color: #e61776;
 }
-.like:hover {
+.reaction.like:hover {
   color: #e61776;
+}
+.reaction:hover {
+  color: red;
 }
 .right-menu__top {
   display: grid;
@@ -286,4 +290,76 @@ a {
   color: white;
   padding: 0.5rem 3rem;
   border: 1px solid #202327;
+}
+.arrow {
+  font-weight: bolder;
+}
+.profile-avatar {
+  border-radius: 50%;
+  width: 150px;
+  padding: 1rem;
+  margin-left: 2rem;
+}
+.user-name {
+  color: white;
+}
+.profile {
+  color: white;
+}
+.profile-info {
+  display: grid;
+}
+.stuff {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  gap: 2rem;
+  align-items: center;
+  border-top: 1px solid #2f3336;
+}
+.name-email {
+  display: grid;
+  gap: 0.5rem;
+}
+.name-email p {
+  color: #4a4e51;
+}
+.following-followers {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+.following-followers span {
+  color: #4a4e51;
+}
+.following-followers p:hover {
+  text-decoration: underline;
+}
+.user-tweets {
+}
+a {
+  text-decoration: none;
+}
+span {
+  text-decoration: none;
+  color: white;
+}
+.no-tweets {
+  color: white;
+  padding: 1rem;
+}
+.comment-icon {
+  color: #4a4e51;
+}
+.like-icon {
+  color: #4a4e51;
+}
+.camera-btn {
+  background-color: black;
+  font-size: 20px;
+}
+.title {
+  color: white;
 }

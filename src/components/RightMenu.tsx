@@ -33,7 +33,6 @@ export function RightMenu({ setSearch, search }: Props) {
           />
         </form>
       </div>
-       {/* {search ? search.map((s) => <h1 className="name-search">{s.name}</h1>) : null} */}
     </section>
   );
 }

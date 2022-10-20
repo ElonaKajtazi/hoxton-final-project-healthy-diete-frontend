@@ -12,7 +12,12 @@ type Props = {
   setSearch: React.Dispatch<React.SetStateAction<UserType[] | null>>;
 };
 
-export function SignedInLandingPage({ currentUser, signOut, search, setSearch }: Props) {
+export function SignedInLandingPage({
+  currentUser,
+  signOut,
+  search,
+  setSearch,
+}: Props) {
   const [tweets, setTweets] = useState<HomeTweetType[]>([]);
   const [like, setLike] = useState<LikeType | null>(null);
 
@@ -56,17 +61,24 @@ export function SignedInLandingPage({ currentUser, signOut, search, setSearch }:
             ))
           ) : (
             <>
-              <NewTweetForm currentUser={currentUser} />
-
-              <ul className="tweets">
-                {tweets.map((tweet) => (
-                  <Tweet
-                    currentUser={currentUser}
-                    tweet={tweet}
-                    key={tweet.id}
-                  />
-                ))}
-              </ul>
+              <NewTweetForm
+                currentUser={currentUser}
+                setTweets={setTweets}
+                tweets={tweets}
+              />
+              {tweets.length === 0 ? (
+                <p className="no-tweets">No tweets found</p>
+              ) : (
+                <ul className="tweets">
+                  {tweets.map((tweet) => (
+                    <Tweet
+                      currentUser={currentUser}
+                      tweet={tweet}
+                      key={tweet.id}
+                    />
+                  ))}
+                </ul>
+              )}
             </>
           )}
         </section>

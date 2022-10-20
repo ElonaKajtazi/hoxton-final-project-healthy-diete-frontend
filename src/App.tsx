@@ -61,7 +61,17 @@ function App() {
         <Route
           path="/profile"
           element={
-            <Profile search={search} setSearch={setSearch} signOut={signOut} />
+            currentUser ? (
+              <Profile
+                setCurrentUser={setCurrentUser}
+                search={search}
+                setSearch={setSearch}
+                signOut={signOut}
+                currentUser={currentUser}
+              />
+            ) : (
+              <Navigate to="/home" />
+            )
           }
         />
         <Route path="*" element={<PageNotFound />} />

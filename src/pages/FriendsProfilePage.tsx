@@ -50,6 +50,7 @@ export function FriendsProfilePage({
   setSeeTweets,
   seeSelectedTopics,
   setSeeSelectedTopics,
+  currentUser,
 }: Props) {
   const params = useParams();
   const [user, setUser] = useState<UserType | null>(null);
@@ -132,31 +133,61 @@ export function FriendsProfilePage({
               <h2 className="user-name">{user.name}</h2>
               <p>{user.email}</p>
             </div>
-            <button onClick={() => {
-                if(localStorage.token) {
-
-                    fetch(`http://localhost:4443/follow`, {
-                        method: "POST",
-                        headers: {
-                            Authorization: localStorage.token,
-                            "Content-Type": "application/json"
-                        }, 
-                        body: JSON.stringify({
-                            friend1Id: user.id
-                        })
-                    })
-                    .then(rsp => rsp.json())
-                    .then(data => {
-                        if(data.errors) {
-                            alert(data.errors)
-                        } else {
-                            console.log(data)
-                        }
-                    })
+            <button
+              onClick={() => {
+                if (localStorage.token) {
+                  fetch(`http://localhost:4443/follow`, {
+                    method: "POST",
+                    headers: {
+                      Authorization: localStorage.token,
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      friend1Id: user.id,
+                    }),
+                  })
+                    .then((rsp) => rsp.json())
+                    .then((data) => {
+                      if (data.errors) {
+                        alert(data.errors);
+                      } else {
+                        console.log(data);
+                      }
+                    });
                 }
-            }}>Follow</button>
+              }}
+            >
+              Follow
+            </button>
+            <button
+              onClick={() => {
+                if (localStorage.token) {
+                  fetch(`http://localhost:4443/unfollow`, {
+                    method: "DELETE",
+                    headers: {
+                      Authorization: localStorage.token,
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      friend1Id: user.id,
+                    }),
+                  })
+                    .then((rsp) => rsp.json())
+                    .then((data) => {
+                      if (data.errors) {
+                        alert(data.errors);
+                      } else {
+                        console.log(data);
+                      }
+                    });
+                }
+              }}
+            >
+              Unfollow
+            </button>
+
           </div>
-          
+
           <div className="following-followers">
             <p
               onClick={() => {
@@ -218,7 +249,12 @@ export function FriendsProfilePage({
         ) : null}
         {seeFollowers
           ? followers.map((follower) => (
-              <li className="name-search" key={follower.id}>
+            // <Link
+            //     to={`/user/${follower.id}`}
+            //     className="link"
+            //     key={follower.id}
+            //   >
+              <li className="name-search">
                 <div className="searched-users">
                   <img
                     src={follower.avatar}
@@ -228,12 +264,19 @@ export function FriendsProfilePage({
                   <h6>{follower.name}</h6>
                 </div>
               </li>
+              // </Link>
             ))
           : null}
 
         {seeFollowing
           ? following.map((following) => (
               <li className="name-search" key={following.id}>
+                 {/* <Link
+                  to={`/user/${following.id}`}
+                  className="link"
+              
+                > */}
+
                 <div className="searched-users">
                   <img
                     src={following.avatar}
@@ -242,6 +285,7 @@ export function FriendsProfilePage({
                   />
                   <h6>{following.name}</h6>
                 </div>
+                {/* </Link> */}
               </li>
             ))
           : null}

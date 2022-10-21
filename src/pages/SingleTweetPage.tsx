@@ -8,7 +8,7 @@ type Props = {
   search: UserType[] | null;
   setSearch: React.Dispatch<React.SetStateAction<UserType[] | null>>;
   currentUser: UserType | null;
-  setSeeNotifications:React.Dispatch<React.SetStateAction<boolean>>
+  setSeeNotifications: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function SingleTweetPage({
@@ -16,7 +16,7 @@ export function SingleTweetPage({
   search,
   setSearch,
   currentUser,
-  setSeeNotifications
+  setSeeNotifications,
 }: Props) {
   const params = useParams();
   const [singleTweet, setSingeTweet] = useState<null | HomeTweetType>(null);
@@ -45,7 +45,11 @@ export function SingleTweetPage({
   }, []);
   return (
     <div className="home">
-      <LeftMenu signOut={signOut} setSeeNotifications={setSeeNotifications}/>
+      <LeftMenu
+        signOut={signOut}
+        setSeeNotifications={setSeeNotifications}
+        setSearch={setSearch}
+      />
       <section className="main-top">
         <h1 className="main-top__home">
           <Link to="/home">
@@ -54,14 +58,18 @@ export function SingleTweetPage({
           Tweet
         </h1>
         <section className="tweet-details">
+            <Link to={`/user/${singleTweet?.authorId}`} className="link">
           <div className="avatar-name">
-            <img
-              src={singleTweet?.author.avatar}
-              alt=""
-              className="tweet-details__avatar"
-            />
-            <h3 className="tweet-details__name">{singleTweet?.author.name}</h3>
+              <img
+                src={singleTweet?.author.avatar}
+                alt=""
+                className="tweet-details__avatar"
+              />
+              <h3 className="tweet-details__name">
+                {singleTweet?.author.name}
+              </h3>
           </div>
+            </Link>
           <div className="text-image">
             <h4 className="tweet-details__text">{singleTweet?.text}</h4>
             {singleTweet?.image ? (
@@ -149,7 +157,8 @@ export function SingleTweetPage({
                     if (data.errors) {
                       alert(data.errors);
                     } else {
-                      setComments([...comments, data]);
+                      // setComments([...comments, data]);
+                      console.log(data);
                     }
                   });
               }

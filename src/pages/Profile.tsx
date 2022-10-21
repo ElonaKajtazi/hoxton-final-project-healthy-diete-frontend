@@ -12,22 +12,22 @@ type Props = {
   currentUser: UserType | null;
   setCurrentUser: React.Dispatch<React.SetStateAction<UserType | null>>;
   setSeeNotifications: React.Dispatch<React.SetStateAction<boolean>>;
-  followers: UserType[]
-  setFollowers:  React.Dispatch<React.SetStateAction<UserType[]>>
-  following: UserType[]
-  setFollowing:  React.Dispatch<React.SetStateAction<UserType[]>>
-  userTweets: HomeTweetType[]
-  setUserTweets: React.Dispatch<React.SetStateAction<HomeTweetType[]>>
-  selectedTopics: SelectedTopicType[]
-  setSelectedTopics: React.Dispatch<React.SetStateAction<SelectedTopicType[]>>
-  seeFollowers: boolean
-  setSeeFollowers: React.Dispatch<React.SetStateAction<boolean>>
-  seeFollowing: boolean
-  setSeeFollowing: React.Dispatch<React.SetStateAction<boolean>>
-  seeTweets: boolean
-  setSeeTweets: React.Dispatch<React.SetStateAction<boolean>>
-  seeSelectedTopics: boolean,
-  setSeeSelectedTopics: React.Dispatch<React.SetStateAction<boolean>>
+  followers: UserType[];
+  setFollowers: React.Dispatch<React.SetStateAction<UserType[]>>;
+  following: UserType[];
+  setFollowing: React.Dispatch<React.SetStateAction<UserType[]>>;
+  userTweets: HomeTweetType[];
+  setUserTweets: React.Dispatch<React.SetStateAction<HomeTweetType[]>>;
+  selectedTopics: SelectedTopicType[];
+  setSelectedTopics: React.Dispatch<React.SetStateAction<SelectedTopicType[]>>;
+  seeFollowers: boolean;
+  setSeeFollowers: React.Dispatch<React.SetStateAction<boolean>>;
+  seeFollowing: boolean;
+  setSeeFollowing: React.Dispatch<React.SetStateAction<boolean>>;
+  seeTweets: boolean;
+  setSeeTweets: React.Dispatch<React.SetStateAction<boolean>>;
+  seeSelectedTopics: boolean;
+  setSeeSelectedTopics: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export function Profile({
   signOut,
@@ -51,9 +51,8 @@ export function Profile({
   seeTweets,
   setSeeTweets,
   seeSelectedTopics,
-  setSeeSelectedTopics
+  setSeeSelectedTopics,
 }: Props) {
-
   const [changePic, setChangePic] = useState<boolean>(false);
   useEffect(() => {
     fetch(`http://localhost:4443/users/${currentUser?.id}/followers`)
@@ -96,7 +95,11 @@ export function Profile({
   if (currentUser === null) return <h1>Loading</h1>;
   return (
     <div className="home">
-      <LeftMenu signOut={signOut} setSeeNotifications={setSeeNotifications} setSearch={setSearch}/>
+      <LeftMenu
+        signOut={signOut}
+        setSeeNotifications={setSeeNotifications}
+        setSearch={setSearch}
+      />
 
       <div className="main profile">
         <section className="main-top">
@@ -192,30 +195,42 @@ export function Profile({
         ) : null}
         {seeFollowers
           ? followers.map((follower) => (
-              <li className="name-search" key={follower.id}>
-                <div className="searched-users">
-                  <img
-                    src={follower.avatar}
-                    alt="avatar"
-                    className="user-avatar"
-                  />
-                  <h6>{follower.name}</h6>
-                </div>
-              </li>
+              <Link
+                to={`/user/${follower.id}`}
+                className="link"
+                key={follower.id}
+              >
+                <li className="name-search">
+                  <div className="searched-users">
+                    <img
+                      src={follower.avatar}
+                      alt="avatar"
+                      className="user-avatar"
+                    />
+                    <h6>{follower.name}</h6>
+                  </div>
+                </li>
+              </Link>
             ))
           : null}
 
         {seeFollowing
           ? following.map((following) => (
               <li className="name-search" key={following.id}>
-                <div className="searched-users">
-                  <img
-                    src={following.avatar}
-                    alt="avatar"
-                    className="user-avatar"
-                  />
-                  <h6>{following.name}</h6>
-                </div>
+                <Link
+                  to={`/user/${following.id}`}
+                  className="link"
+              
+                >
+                  <div className="searched-users">
+                    <img
+                      src={following.avatar}
+                      alt="avatar"
+                      className="user-avatar"
+                    />
+                    <h6>{following.name}</h6>
+                  </div>
+                </Link>
               </li>
             ))
           : null}

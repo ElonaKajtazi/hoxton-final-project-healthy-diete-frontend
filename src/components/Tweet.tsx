@@ -15,7 +15,7 @@ export function Tweet({ tweet, currentUser }: Props) {
         <Link to={`/tweet/${tweet.id}`} className="remove-undeline">
           <div className="some-div">
             <h3 className="user-name">{tweet.author.name}</h3>
-            <p className="tweet-topic">{tweet.selectedTopic?.topic.name}</p>
+            {/* <p className="tweet-topic">{tweet.selectedTopic?.topic.name}</p> */}
             <p className="tweet-text">{tweet.text}</p>
           </div>
           {/* <p className="time"> {tweet.time}</p> */}

@@ -266,7 +266,7 @@ a {
   /* padding: 0.5rem; */
   width: 44.5px;
   background-color: #202327;
-  color: wheat;
+
   fill: currentColor;
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
@@ -462,4 +462,7 @@ li {
   display: grid;
   gap: 0.5rem;
   padding: 1rem;
+}
+.link {
+  color: white;
 }

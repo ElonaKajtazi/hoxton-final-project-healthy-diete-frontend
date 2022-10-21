@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ChangeProfilePictureForm } from "../components/ChangeProfilePictureForm";
 import { LeftMenu } from "../components/LeftMenu";
 import { RightMenu } from "../components/RightMenu";
@@ -12,29 +12,27 @@ type Props = {
   currentUser: UserType | null;
   setCurrentUser: React.Dispatch<React.SetStateAction<UserType | null>>;
   setSeeNotifications: React.Dispatch<React.SetStateAction<boolean>>;
-  followers: UserType[]
-  setFollowers:  React.Dispatch<React.SetStateAction<UserType[]>>
-  following: UserType[]
-  setFollowing:  React.Dispatch<React.SetStateAction<UserType[]>>
-  userTweets: HomeTweetType[]
-  setUserTweets: React.Dispatch<React.SetStateAction<HomeTweetType[]>>
-  selectedTopics: SelectedTopicType[]
-  setSelectedTopics: React.Dispatch<React.SetStateAction<SelectedTopicType[]>>
-  seeFollowers: boolean
-  setSeeFollowers: React.Dispatch<React.SetStateAction<boolean>>
-  seeFollowing: boolean
-  setSeeFollowing: React.Dispatch<React.SetStateAction<boolean>>
-  seeTweets: boolean
-  setSeeTweets: React.Dispatch<React.SetStateAction<boolean>>
-  seeSelectedTopics: boolean,
-  setSeeSelectedTopics: React.Dispatch<React.SetStateAction<boolean>>
+  followers: UserType[];
+  setFollowers: React.Dispatch<React.SetStateAction<UserType[]>>;
+  following: UserType[];
+  setFollowing: React.Dispatch<React.SetStateAction<UserType[]>>;
+  userTweets: HomeTweetType[];
+  setUserTweets: React.Dispatch<React.SetStateAction<HomeTweetType[]>>;
+  selectedTopics: SelectedTopicType[];
+  setSelectedTopics: React.Dispatch<React.SetStateAction<SelectedTopicType[]>>;
+  seeFollowers: boolean;
+  setSeeFollowers: React.Dispatch<React.SetStateAction<boolean>>;
+  seeFollowing: boolean;
+  setSeeFollowing: React.Dispatch<React.SetStateAction<boolean>>;
+  seeTweets: boolean;
+  setSeeTweets: React.Dispatch<React.SetStateAction<boolean>>;
+  seeSelectedTopics: boolean;
+  setSeeSelectedTopics: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export function Profile({
+export function FriendsProfilePage({
   signOut,
   search,
   setSearch,
-  currentUser,
-  setCurrentUser,
   setSeeNotifications,
   followers,
   setFollowers,
@@ -51,12 +49,21 @@ export function Profile({
   seeTweets,
   setSeeTweets,
   seeSelectedTopics,
-  setSeeSelectedTopics
+  setSeeSelectedTopics,
 }: Props) {
-
-  const [changePic, setChangePic] = useState<boolean>(false);
+  const params = useParams();
+  const [user, setUser] = useState<UserType | null>(null);
   useEffect(() => {
-    fetch(`http://localhost:4443/users/${currentUser?.id}/followers`)
+    fetch(`http://localhost:4443/users/${params.id}`)
+      .then((rsp) => rsp.json())
+      .then((data) => {
+        if (data.errors) {
+          alert(data.errors);
+        } else {
+          setUser(data);
+        }
+      });
+    fetch(`http://localhost:4443/users/${params.id}/followers`)
       .then((rsp) => rsp.json())
       .then((data) => {
         if (data.errors) {
@@ -65,7 +72,7 @@ export function Profile({
           setFollowers(data);
         }
       });
-    fetch(`http://localhost:4443/users/${currentUser?.id}/following`)
+    fetch(`http://localhost:4443/users/${params.id}/following`)
       .then((rsp) => rsp.json())
       .then((data) => {
         if (data.errors) {
@@ -74,7 +81,7 @@ export function Profile({
           setFollowing(data);
         }
       });
-    fetch(`http://localhost:4443/tweets-per-user/${currentUser?.id}`)
+    fetch(`http://localhost:4443/tweets-per-user/${params.id}`)
       .then((rsp) => rsp.json())
       .then((data) => {
         if (data.errors) {
@@ -83,7 +90,7 @@ export function Profile({
           setUserTweets(data);
         }
       });
-    fetch(`http://localhost:4443/users-selected-topics/${currentUser?.id}`)
+    fetch(`http://localhost:4443/users-selected-topics/${params.id}`)
       .then((rsp) => rsp.json())
       .then((data) => {
         if (data.errors) {
@@ -93,40 +100,63 @@ export function Profile({
         }
       });
   }, []);
-  if (currentUser === null) return <h1>Loading</h1>;
+  if (user === null) return <h1>Loading</h1>;
   return (
     <div className="home">
-      <LeftMenu signOut={signOut} setSeeNotifications={setSeeNotifications} setSearch={setSearch}/>
-
+      <LeftMenu
+        signOut={signOut}
+        setSeeNotifications={setSeeNotifications}
+        setSearch={setSearch}
+      />
       <div className="main profile">
         <section className="main-top">
           <h1 className="main-top__home">
             <Link to="/home">
               <span className="arrow"> ← </span>
             </Link>
-            {currentUser?.name}
+            {user.name}
           </h1>
         </section>
         <div className="profile-info">
           <div className="stuff">
-            <img
-              src={currentUser.avatar}
-              alt={currentUser.name}
-              className="profile-avatar"
-            />
-            <button
+            <img src={user.avatar} alt={user.name} className="profile-avatar" />
+            {/* <button
               className="camera-btn"
               onClick={() => {
                 setChangePic(true);
               }}
             >
               📷
-            </button>
+            </button> */}
             <div className="name-email">
-              <h2 className="user-name">{currentUser.name}</h2>
-              <p>{currentUser.email}</p>
+              <h2 className="user-name">{user.name}</h2>
+              <p>{user.email}</p>
             </div>
+            <button onClick={() => {
+                if(localStorage.token) {
+
+                    fetch(`http://localhost:4443/follow`, {
+                        method: "POST",
+                        headers: {
+                            Authorization: localStorage.token,
+                            "Content-Type": "application/json"
+                        }, 
+                        body: JSON.stringify({
+                            friend1Id: user.id
+                        })
+                    })
+                    .then(rsp => rsp.json())
+                    .then(data => {
+                        if(data.errors) {
+                            alert(data.errors)
+                        } else {
+                            console.log(data)
+                        }
+                    })
+                }
+            }}>Follow</button>
           </div>
+          
           <div className="following-followers">
             <p
               onClick={() => {
@@ -151,10 +181,10 @@ export function Profile({
               {followers.length} <span>Followers</span>
             </p>
             <p>
-              {currentUser.twwetTicket} <span>Tweet tickets</span>
+              {user.twwetTicket} <span>Tweet tickets</span>
             </p>
             <p>
-              {currentUser.commentTicket} <span>Comment tickets</span>
+              {user.commentTicket} <span>Comment tickets</span>
             </p>
             <p
               onClick={() => {
@@ -182,11 +212,7 @@ export function Profile({
         {seeTweets ? (
           <div className="user-tweets">
             {userTweets.map((tweet) => (
-              <Tweet
-                currentUser={currentUser}
-                tweet={tweet}
-                key={currentUser.id}
-              />
+              <Tweet currentUser={user} tweet={tweet} key={user.id} />
             ))}
           </div>
         ) : null}
@@ -230,13 +256,13 @@ export function Profile({
           : null}
       </div>
       <RightMenu search={search} setSearch={setSearch} />
-      {changePic ? (
+      {/* {changePic ? (
         <ChangeProfilePictureForm
           currentUser={currentUser}
           setCurrentUser={setCurrentUser}
           setChangePic={setChangePic}
         />
-      ) : null}
+      ) : null} */}
     </div>
   );
 }

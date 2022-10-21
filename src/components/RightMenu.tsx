@@ -22,7 +22,13 @@ export function RightMenu({ setSearch, search }: Props) {
             e.preventDefault();
             fetch(`http://localhost:4443/search-users/${e.target.search.value}`)
               .then((rsp) => rsp.json())
-              .then((data) => setSearch(data));
+              .then((data) => {
+                if (data.errors) {
+                  alert(data.errors);
+                } else {
+                  setSearch(data);
+                }
+              });
           }}
         >
           <input

@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { LeftMenu } from "../components/LeftMenu";
 import { RightMenu } from "../components/RightMenu";
-import { Tweet } from "../components/Tweet";
 import { CommentType, HomeTweetType, TweetType, UserType } from "../types";
 type Props = {
   signOut: () => void;
   search: UserType[] | null;
   setSearch: React.Dispatch<React.SetStateAction<UserType[] | null>>;
   currentUser: UserType | null;
+  setSeeNotifications:React.Dispatch<React.SetStateAction<boolean>>
 };
 
 export function SingleTweetPage({
@@ -16,33 +16,36 @@ export function SingleTweetPage({
   search,
   setSearch,
   currentUser,
+  setSeeNotifications
 }: Props) {
   const params = useParams();
   const [singleTweet, setSingeTweet] = useState<null | HomeTweetType>(null);
   const [comments, setComments] = useState<CommentType[]>([]);
   useEffect(() => {
-    fetch(`http://localhost:4443/tweets/${params.id}`)
-      .then((rsp) => rsp.json())
-      .then((data) => {
-        if (data.errors) {
-          alert(data.errors);
-        } else {
-          setSingeTweet(data);
-        }
-      });
-    fetch(`http://localhost:4443/comments-per-tweet/${params.id}`)
-      .then((rsp) => rsp.json())
-      .then((data) => {
-        if (data.errors) {
-          alert(data.errors);
-        } else {
-          setComments(data);
-        }
-      });
+    setInterval(() => {
+      fetch(`http://localhost:4443/tweets/${params.id}`)
+        .then((rsp) => rsp.json())
+        .then((data) => {
+          if (data.errors) {
+            alert(data.errors);
+          } else {
+            setSingeTweet(data);
+          }
+        });
+      fetch(`http://localhost:4443/comments-per-tweet/${params.id}`)
+        .then((rsp) => rsp.json())
+        .then((data) => {
+          if (data.errors) {
+            alert(data.errors);
+          } else {
+            setComments(data);
+          }
+        });
+    }, 1000);
   }, []);
   return (
     <div className="home">
-      <LeftMenu signOut={signOut} />
+      <LeftMenu signOut={signOut} setSeeNotifications={setSeeNotifications}/>
       <section className="main-top">
         <h1 className="main-top__home">
           <Link to="/home">
@@ -138,11 +141,17 @@ export function SingleTweetPage({
                   },
                   body: JSON.stringify({
                     text: e.target.comment.value,
-                    tweetId: singleTweet?.id
+                    tweetId: singleTweet?.id,
                   }),
                 })
-                .then(rsp => rsp.json())
-                .then(data => console.log(data))
+                  .then((rsp) => rsp.json())
+                  .then((data) => {
+                    if (data.errors) {
+                      alert(data.errors);
+                    } else {
+                      setComments([...comments, data]);
+                    }
+                  });
               }
             }}
           >
@@ -155,9 +164,32 @@ export function SingleTweetPage({
             <button className="home__tweet-btn">Reply</button>
           </form>
           <div className="tweet__details-comments">
-            <ul>
+            <ul className="comments-list">
               {comments.map((comment) => (
-                <li>{comment.text}</li>
+                <li className="comment" key={comment.id}>
+                  <div className="avatar-name">
+                    <img
+                      src={comment.author.avatar}
+                      alt=""
+                      className="tweet-details__avatar commenter"
+                    />
+                    <div className="name-comment">
+                      <h3 className="tweet-details__name">
+                        {comment.author.name}
+                      </h3>
+                      <h4 className="tweet-details__text">{comment.text}</h4>
+                    </div>
+                  </div>
+                  <div className="text-image">
+                    {comment.image ? (
+                      <img
+                        className="tweet-details__image"
+                        src={comment.image}
+                        alt="image"
+                      />
+                    ) : null}
+                  </div>
+                </li>
               ))}
             </ul>
           </div>

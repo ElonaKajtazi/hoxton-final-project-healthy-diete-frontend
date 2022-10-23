@@ -5,6 +5,7 @@ import { LeftMenu } from "../components/LeftMenu";
 import { RightMenu } from "../components/RightMenu";
 import { Tweet } from "../components/Tweet";
 import { HomeTweetType, SelectedTopicType, UserType } from "../types";
+
 type Props = {
   signOut: () => void;
   search: UserType[] | null;
@@ -29,6 +30,7 @@ type Props = {
   seeSelectedTopics: boolean;
   setSeeSelectedTopics: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
 export function FriendsProfilePage({
   signOut,
   search,
@@ -54,6 +56,10 @@ export function FriendsProfilePage({
 }: Props) {
   const params = useParams();
   const [user, setUser] = useState<UserType | null>(null);
+  const [seeFollowButton, setSeeFollowButton] = useState<null | boolean>(null);
+  const [seeUnfollowButton, setSeeUnfollowButton] = useState<null | boolean>(
+    null
+  );
   useEffect(() => {
     fetch(`http://localhost:4443/users/${params.id}`)
       .then((rsp) => rsp.json())
@@ -101,7 +107,22 @@ export function FriendsProfilePage({
         }
       });
   }, []);
+
   if (user === null) return <h1>Loading</h1>;
+  // useEffect(() => {
+  //   // if (user === null) return;
+  //   // if (currentUser === null) return;
+  //   for (let a of user.followedBy) {
+  //     if (a.friend1Id === user.id && a.friend2Id === currentUser.id) {
+  //       console.log("You already follow this person!!!");
+
+  //     } else {
+  //    console.log("You don't follow this person...")
+  //   }
+  //   }
+  // }, []);
+
+
   return (
     <div className="home">
       <LeftMenu
@@ -133,59 +154,67 @@ export function FriendsProfilePage({
               <h2 className="user-name">{user.name}</h2>
               <p>{user.email}</p>
             </div>
-            <button
-              onClick={() => {
-                if (localStorage.token) {
-                  fetch(`http://localhost:4443/follow`, {
-                    method: "POST",
-                    headers: {
-                      Authorization: localStorage.token,
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      friend1Id: user.id,
-                    }),
-                  })
-                    .then((rsp) => rsp.json())
-                    .then((data) => {
-                      if (data.errors) {
-                        alert(data.errors);
-                      } else {
-                        console.log(data);
-                      }
-                    });
-                }
-              }}
-            >
-              Follow
-            </button>
-            <button
-              onClick={() => {
-                if (localStorage.token) {
-                  fetch(`http://localhost:4443/unfollow`, {
-                    method: "DELETE",
-                    headers: {
-                      Authorization: localStorage.token,
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      friend1Id: user.id,
-                    }),
-                  })
-                    .then((rsp) => rsp.json())
-                    .then((data) => {
-                      if (data.errors) {
-                        alert(data.errors);
-                      } else {
-                        console.log(data);
-                      }
-                    });
-                }
-              }}
-            >
-              Unfollow
-            </button>
-
+            {/* {user.followedBy.map((a) => {
+              a.friend1Id === user.id && a.friend2Id === currentUser?.id
+                ? setSeeFollowButton(true)
+                : setSeeFollowButton(false);
+            })} */}
+            {/* {seeFollowButton ? ( */}
+              <button
+                onClick={() => {
+                  if (localStorage.token) {
+                    fetch(`http://localhost:4443/follow`, {
+                      method: "POST",
+                      headers: {
+                        Authorization: localStorage.token,
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        friend1Id: user.id,
+                      }),
+                    })
+                      .then((rsp) => rsp.json())
+                      .then((data) => {
+                        if (data.errors) {
+                          alert(data.errors);
+                        } else {
+                          console.log(data);
+                        }
+                      });
+                  }
+                }}
+              >
+                Follow
+              </button>
+            {/* // ) : null} */}
+            {/* {seeUnfollowButton ? ( */}
+              <button
+                onClick={() => {
+                  if (localStorage.token) {
+                    fetch(`http://localhost:4443/unfollow`, {
+                      method: "DELETE",
+                      headers: {
+                        Authorization: localStorage.token,
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        friend1Id: user.id,
+                      }),
+                    })
+                      .then((rsp) => rsp.json())
+                      .then((data) => {
+                        if (data.errors) {
+                          alert(data.errors);
+                        } else {
+                          console.log(data);
+                        }
+                      });
+                  }
+                }}
+              >
+                Unfollow
+              </button>
+            {/* ) : null} */}
           </div>
 
           <div className="following-followers">
@@ -243,17 +272,17 @@ export function FriendsProfilePage({
         {seeTweets ? (
           <div className="user-tweets">
             {userTweets.map((tweet) => (
-              <Tweet currentUser={user} tweet={tweet} key={user.id} />
+              <Tweet currentUser={user} tweet={tweet} key={tweet.id} />
             ))}
           </div>
         ) : null}
         {seeFollowers
           ? followers.map((follower) => (
-            // <Link
-            //     to={`/user/${follower.id}`}
-            //     className="link"
-            //     key={follower.id}
-            //   >
+              // <Link
+              //     to={`/user/${follower.id}`}
+              //     className="link"
+              //     key={follower.id}
+              //   >
               <li className="name-search">
                 <div className="searched-users">
                   <img
@@ -271,7 +300,7 @@ export function FriendsProfilePage({
         {seeFollowing
           ? following.map((following) => (
               <li className="name-search" key={following.id}>
-                 {/* <Link
+                {/* <Link
                   to={`/user/${following.id}`}
                   className="link"
               

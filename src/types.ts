@@ -9,6 +9,7 @@ export type UserType = {
   tweets: TweetType[];
   selectedTopics: SelectedTopicType[];
   notifications: NotificationType[];
+  followedBy: FollowedBy[]
 };
 
 export type TweetType = {
@@ -100,3 +101,16 @@ export type CommentType = {
     commentTicket: number;
   };
 };
+export type FollowedBy = {
+  friend1Id: number;
+  friend2Id: number;
+  friend1: {
+      id: number;
+      name: string;
+      avatar: string;
+      email: string;
+      password: string;
+      twwetTicket: number;
+      commentTicket: number;
+  };
+}

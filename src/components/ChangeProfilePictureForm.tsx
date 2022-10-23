@@ -15,6 +15,14 @@ export function ChangeProfilePictureForm({
   return (
     <div className="sign-in-modal__wrapper ">
       <div className="sign-in-modal__container">
+        <button
+          className="sign-in-modal__close-button"
+          onClick={() => {
+            setChangePic(false);
+          }}
+        >
+          X
+        </button>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -39,6 +47,7 @@ export function ChangeProfilePictureForm({
             name="avatar"
             className="text-input"
             placeholder="image url"
+            required
           />
           <button className="sign-in-btn">Change</button>
         </form>

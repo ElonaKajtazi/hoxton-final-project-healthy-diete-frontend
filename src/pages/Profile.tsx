@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ChangeProfilePictureForm } from "../components/ChangeProfilePictureForm";
 import { LeftMenu } from "../components/LeftMenu";
+import { NewTweetModal } from "../components/NewTweetModal";
 import { RightMenu } from "../components/RightMenu";
 import { Tweet } from "../components/Tweet";
 import { HomeTweetType, SelectedTopicType, UserType } from "../types";
@@ -28,6 +29,8 @@ type Props = {
   setSeeTweets: React.Dispatch<React.SetStateAction<boolean>>;
   seeSelectedTopics: boolean;
   setSeeSelectedTopics: React.Dispatch<React.SetStateAction<boolean>>;
+  setNewTweetModal: React.Dispatch<React.SetStateAction<boolean>>;
+  newTweetModal: boolean;
 };
 export function Profile({
   signOut,
@@ -52,6 +55,8 @@ export function Profile({
   setSeeTweets,
   seeSelectedTopics,
   setSeeSelectedTopics,
+  setNewTweetModal,
+  newTweetModal,
 }: Props) {
   const [changePic, setChangePic] = useState<boolean>(false);
   useEffect(() => {
@@ -96,6 +101,7 @@ export function Profile({
   return (
     <div className="home">
       <LeftMenu
+        setNewTweetModal={setNewTweetModal}
         signOut={signOut}
         setSeeNotifications={setSeeNotifications}
         setSearch={setSearch}
@@ -217,11 +223,7 @@ export function Profile({
         {seeFollowing
           ? following.map((following) => (
               <li className="name-search" key={following.id}>
-                <Link
-                  to={`/user/${following.id}`}
-                  className="link"
-              
-                >
+                <Link to={`/user/${following.id}`} className="link">
                   <div className="searched-users">
                     <img
                       src={following.avatar}
@@ -250,6 +252,12 @@ export function Profile({
           currentUser={currentUser}
           setCurrentUser={setCurrentUser}
           setChangePic={setChangePic}
+        />
+      ) : null}
+      {newTweetModal ? (
+        <NewTweetModal
+          currentUser={currentUser}
+          setNewTweetModal={setNewTweetModal}
         />
       ) : null}
     </div>

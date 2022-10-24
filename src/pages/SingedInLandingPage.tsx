@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { LeftMenu } from "../components/LeftMenu";
 import { NewTweetForm } from "../components/NewTweetForm";
+import { NewTweetModal } from "../components/NewTweetModal";
 import { RightMenu } from "../components/RightMenu";
 import { Tweet } from "../components/Tweet";
 import { HomeTweetType, UserType, LikeType, NotificationType } from "../types";
@@ -13,6 +14,9 @@ type Props = {
   setSearch: React.Dispatch<React.SetStateAction<UserType[] | null>>;
   setSeeNotifications: React.Dispatch<React.SetStateAction<boolean>>;
   seeNotifications: boolean;
+  setNewTweetModal: React.Dispatch<React.SetStateAction<boolean>>;
+  // setNewTweetModal: React.Dispatch<React.SetStateAction<boolean>>
+  newTweetModal: boolean;
 };
 
 export function SignedInLandingPage({
@@ -22,6 +26,9 @@ export function SignedInLandingPage({
   setSearch,
   setSeeNotifications,
   seeNotifications,
+  setNewTweetModal,
+
+  newTweetModal,
 }: Props) {
   const [tweets, setTweets] = useState<HomeTweetType[]>([]);
   // const [like, setLike] = useState<LikeType | null>(null);
@@ -64,6 +71,7 @@ export function SignedInLandingPage({
   return (
     <div className="home">
       <LeftMenu
+        setNewTweetModal={setNewTweetModal}
         signOut={signOut}
         setSeeNotifications={setSeeNotifications}
         setSearch={setSearch}
@@ -105,8 +113,8 @@ export function SignedInLandingPage({
             <>
               <NewTweetForm
                 currentUser={currentUser}
-                setTweets={setTweets}
-                tweets={tweets}
+                // setTweets={setTweets}
+                // tweets={tweets}
               />
               {tweets.length === 0 ? (
                 <p className="no-tweets">No tweets found</p>
@@ -123,6 +131,12 @@ export function SignedInLandingPage({
               )}
             </>
           )}
+          {newTweetModal ? (
+            <NewTweetModal
+              currentUser={currentUser}
+              setNewTweetModal={setNewTweetModal}
+            />
+          ) : null}
         </section>
       </>
       <RightMenu search={search} setSearch={setSearch} />

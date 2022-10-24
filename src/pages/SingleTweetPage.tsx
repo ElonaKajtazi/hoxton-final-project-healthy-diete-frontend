@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { LeftMenu } from "../components/LeftMenu";
+import { NewTweetModal } from "../components/NewTweetModal";
 import { RightMenu } from "../components/RightMenu";
-import { CommentType, HomeTweetType, TweetType, UserType } from "../types";
+import { CommentType, HomeTweetType, UserType } from "../types";
 type Props = {
   signOut: () => void;
   search: UserType[] | null;
   setSearch: React.Dispatch<React.SetStateAction<UserType[] | null>>;
   currentUser: UserType | null;
   setSeeNotifications: React.Dispatch<React.SetStateAction<boolean>>;
+  setNewTweetModal: React.Dispatch<React.SetStateAction<boolean>>;
+  newTweetModal: boolean;
 };
 
 export function SingleTweetPage({
@@ -17,6 +20,8 @@ export function SingleTweetPage({
   setSearch,
   currentUser,
   setSeeNotifications,
+  setNewTweetModal,
+  newTweetModal,
 }: Props) {
   const params = useParams();
   const [singleTweet, setSingeTweet] = useState<null | HomeTweetType>(null);
@@ -46,6 +51,7 @@ export function SingleTweetPage({
   return (
     <div className="home">
       <LeftMenu
+        setNewTweetModal={setNewTweetModal}
         signOut={signOut}
         setSeeNotifications={setSeeNotifications}
         setSearch={setSearch}
@@ -58,8 +64,8 @@ export function SingleTweetPage({
           Tweet
         </h1>
         <section className="tweet-details">
-            <Link to={`/user/${singleTweet?.authorId}`} className="link">
-          <div className="avatar-name">
+          <Link to={`/user/${singleTweet?.authorId}`} className="link">
+            <div className="avatar-name">
               <img
                 src={singleTweet?.author.avatar}
                 alt=""
@@ -68,8 +74,8 @@ export function SingleTweetPage({
               <h3 className="tweet-details__name">
                 {singleTweet?.author.name}
               </h3>
-          </div>
-            </Link>
+            </div>
+          </Link>
           <div className="text-image">
             <h4 className="tweet-details__text">{singleTweet?.text}</h4>
             {singleTweet?.image ? (
@@ -202,6 +208,12 @@ export function SingleTweetPage({
               ))}
             </ul>
           </div>
+          {newTweetModal ? (
+            <NewTweetModal
+              currentUser={currentUser}
+              setNewTweetModal={setNewTweetModal}
+            />
+          ) : null}
         </section>
       </section>
       <RightMenu search={search} setSearch={setSearch} />

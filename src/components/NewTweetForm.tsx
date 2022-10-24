@@ -1,12 +1,13 @@
-import { HomeTweetType, UserType } from "../types";
+import {UserType } from "../types";
 
 type Props = {
   currentUser: UserType | null;
-  setTweets: React.Dispatch<React.SetStateAction<HomeTweetType[]>>;
-  tweets: HomeTweetType[];
-};
+  // setNewTweetModal: React.Dispatch<React.SetStateAction<boolean>>;
 
-export function NewTweetForm({ currentUser, setTweets, tweets }: Props) {
+
+}
+
+export function NewTweetForm({ currentUser }: Props) {
   if (!currentUser) return <h1>Loading...</h1>;
   const refreshPage = () => {
     window.location.reload();
@@ -32,9 +33,10 @@ export function NewTweetForm({ currentUser, setTweets, tweets }: Props) {
             if (data.errors) {
               alert(data.errors);
             } else {
-              setTweets([...tweets, data]);
+              // setTweets([...tweets, data]);
+              console.log(data)
             }
-            refreshPage();
+            // refreshPage();
           });
       }}
     >

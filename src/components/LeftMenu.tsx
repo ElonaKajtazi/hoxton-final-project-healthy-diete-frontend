@@ -5,11 +5,13 @@ type Props = {
   setSeeNotifications: React.Dispatch<React.SetStateAction<boolean>>;
   setSearch:React.Dispatch<React.SetStateAction<UserType[] | null>>
   // setSeeTweets: React.Dispatch<React.SetStateAction<boolean>>;
+  setNewTweetModal: React.Dispatch<React.SetStateAction<boolean>>
 };
 export function LeftMenu({
   signOut,
   setSeeNotifications,
-  setSearch
+  setSearch,
+  setNewTweetModal
 }: // setSeeTweets,
 Props) {
   return (
@@ -122,7 +124,7 @@ Props) {
             </a>
           </li>
           <li>
-            <button className="tweet-btn">Tweet</button>
+            <button className="tweet-btn" onClick={() => {setNewTweetModal(true)}}>Tweet</button>
           </li>
           <li>
             <button

@@ -22,6 +22,7 @@ function App() {
   const [seeFollowing, setSeeFollowing] = useState<boolean>(false);
   const [seeTweets, setSeeTweets] = useState<boolean>(true);
   const [seeSelectedTopics, setSeeSelectedTopics] = useState<boolean>(false);
+  const [newTweetModal, setNewTweetModal] = useState<boolean>(false);
 
   useEffect(() => {
     if (localStorage.token) {
@@ -59,6 +60,8 @@ function App() {
           element={
             currentUser ? (
               <SignedInLandingPage
+                newTweetModal={newTweetModal}
+                setNewTweetModal={setNewTweetModal}
                 seeNotifications={seeNotificatins}
                 setSeeNotifications={setSeeNotifications}
                 currentUser={currentUser}
@@ -76,6 +79,8 @@ function App() {
           element={
             currentUser ? (
               <Profile
+                newTweetModal={newTweetModal}
+                setNewTweetModal={setNewTweetModal}
                 seeSelectedTopics={seeSelectedTopics}
                 setSeeSelectedTopics={setSeeSelectedTopics}
                 seeTweets={seeTweets}
@@ -138,6 +143,8 @@ function App() {
           path="/tweet/:id"
           element={
             <SingleTweetPage
+              newTweetModal={newTweetModal}
+              setNewTweetModal={setNewTweetModal}
               setSeeNotifications={setSeeNotifications}
               currentUser={currentUser}
               signOut={signOut}
